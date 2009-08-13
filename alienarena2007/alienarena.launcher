@@ -1,0 +1,6 @@
+#!/bin/bash
+
+cd "/opt/alienarena2007"
+./crx.sdl.`uname -m` +set game arena $*
+exit $?
+

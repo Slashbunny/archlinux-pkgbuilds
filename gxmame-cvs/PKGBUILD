@@ -1,0 +1,41 @@
+# Maintainer: Slash <demodevil5 [at] yahoo [dot] com>
+
+pkgname=gxmame-cvs
+pkgver=20080210
+pkgrel=1
+pkgdesc="GTK2 Frontend for XMAME, emulating the GUI of MAME32"
+url="http://gxmame.sourceforge.net/"
+arch=('i686')
+license=('GPL')
+depends=('gtk2' 'zlib' 'expat' 'libglade' 'sdlmame')
+conflicts=('gxmame')
+replaces=('gxmame')
+md5sums=()
+
+_cvsmod="gxmame"
+_cvsroot=":pserver:anonymous@gxmame.cvs.sourceforge.net:/cvsroot/gxmame"
+
+build() {
+    cd $startdir/src
+    touch ~/.cvspass
+
+    # Checkout Files
+    msg "Connecting to CVS server..."
+    cvs -z3 -d $_cvsroot co $_cvsmod
+    msg "CVS Checkout done or server timeout."
+    
+    cd $_cvsmod  
+    msg "Starting build..."
+    
+    # Configure
+    ./autogen.sh
+    ./configure --prefix=/usr 
+    
+    # Build
+    make || return 1
+    make DESTDIR=$startdir/pkg install
+    
+    # Make the Desktop File Name not so Lengthy
+    /bin/sed -i -e 's|Name=GXMame Arcade Machine Emulator Frontend|Name=GXMAME|g' \
+        $startdir/pkg/usr/share/applications/gxmame.desktop
+}

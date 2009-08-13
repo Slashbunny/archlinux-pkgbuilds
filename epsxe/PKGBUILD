@@ -1,0 +1,100 @@
+# Contributor: Slash <demodevil5[at]yahoo[dot]com>
+
+pkgname=epsxe
+pkgver=1.6.0
+pkgrel=1
+pkgdesc="A cross-platform Sony Playstation emulator with video, sound, and input plugins (includes version 1.5.2 for compatability). You need the PSX BIOS file (SCPH1001.BIN) to play."
+url="http://www.epsxe.com/"
+license="Freeware"
+depends=('gtk')
+makedepends=('unzip')
+conflicts=()
+replaces=()
+backup=()
+install=epsxe.install
+source=('epsxe.launcher' 'epsxe-1.5.2.launcher' 'epsxe.desktop' 'epsxe.install' 'epsxe.icon' \
+'http://www.epsxe.com/files/epsxe160lin.zip' \
+'http://www.epsxe.com/files/epsxe152lin.zip' \
+'http://www.pbernert.com/gpupetexgl208.tar.gz' \
+'http://www.pbernert.com/gpupetemesagl176.tar.gz' \
+'http://www.pbernert.com/gpupeopssoftx117.tar.gz' \
+'http://www.pbernert.com/spupeopsoss109.tar.gz' \
+'http://mooby.psxfanatics.com/cdrmooby2.8.tgz' \
+'http://members.chello.at/erich.kitzmueller/ammoq/padJoy082.tgz' \
+'SCPH1001.BIN')
+md5sums=('2311459ae98379fdde9af0de07a0b2e3' '7f4b6dcf66e96a60e592c427223d63ca'\
+         'd6e8f2295eb2f0e398455a8b7ea487c9' 'c9f3c559bc8e8af2bb8856323bef07c4'\
+         '037ae81397ffd8242600e74f118484c3' '32704cfc77939b9a1bd047f22b70eca2'\
+         '5834f34cb904b08d95abda057eff3981' '088c5cdc21a0807e9227d7ec4672b51d'\
+         '1984269ad6f1a044e988f8cd93a5c9cf' '34c8510c9b99791e56d2b5c1938b6a39'\
+         'b42b316576f9f81775f78d62b3567b16' '088e4e504f25a1187cf322512d0faf67'\
+         '510fde521e641f002f39d132e56b6811' '924e392ed05558ffdb115408c263dccf')
+
+build() {
+	cd $startdir/src/
+
+	# Create initial directories
+	install -d $startdir/pkg/opt/epsxe/{plugins,cfg}/
+	
+	# Install ePSXe v1.6.0
+	unzip -d $startdir/pkg/opt/epsxe/ epsxe160lin.zip
+
+	# Install ePSXe v1.5.2 Binary
+	unzip -p epsxe152lin.zip epsxe > $startdir/pkg/opt/epsxe/epsxe-1.5.2
+	chmod 755 $startdir/pkg/opt/epsxe/epsxe-1.5.2
+	
+	# Video Plugin (Software)
+	install -m 755 cfgPeopsSoft $startdir/pkg/opt/epsxe/
+	install -m 755 libgpuPeopsSoftX.so.1.0.17 $startdir/pkg/opt/epsxe/plugins/
+	install -m 664 -g 20 gpuPeopsSoftX.cfg $startdir/pkg/opt/epsxe/cfg/
+	
+	# Video Plugin (MesaGL)
+	install -m 755 cfgPeteMesaGL $startdir/pkg/opt/epsxe/
+	install -m 755 libgpuPeteMesaGL.so.1.0.76 $startdir/pkg/opt/epsxe/plugins/
+	install -m 664 -g 20 gpuPeteMesaGL.cfg $startdir/pkg/opt/epsxe/cfg/
+	
+	# Video Plugin (OpenGL)
+	install -m 755 cfgPeteXGL2 $startdir/pkg/opt/epsxe/
+	install -m 755 libgpuPeteXGL2.so.2.0.8 $startdir/pkg/opt/epsxe/plugins/
+	install -m 664 -g 20 gpuPeteXGL2.cfg $startdir/pkg/opt/epsxe/cfg/
+	
+	# Sound Plugin
+	install -m 755 cfgPeopsOSS $startdir/pkg/opt/epsxe/
+	install -m 755 libspuPeopsOSS.so.1.0.9 $startdir/pkg/opt/epsxe/plugins/
+	install -m 664 -g 20 spuPeopsOSS.cfg $startdir/pkg/opt/epsxe/cfg/
+	
+	# Input Plugin
+	cd padJoy/src/
+	make || return 1
+	install -m 755 cfgPadJoy $startdir/pkg/opt/epsxe/
+	install -m 755 libpadJoy-0.8.so $startdir/pkg/opt/epsxe/plugins/
+
+	# Playstation BIOS
+	cd $startdir/src/
+	install -m 664 SCPH1001.BIN $startdir/pkg/opt/epsxe/bios/scph1001.bin
+
+	# Install Launcher
+	install -D -m 755 $startdir/src/epsxe.launcher \
+		$startdir/pkg/usr/bin/epsxe
+
+	# Install Launcher (v1.5.2)
+	install -D -m 755 $startdir/src/epsxe-1.5.2.launcher \
+		$startdir/pkg/usr/bin/epsxe-1.5.2
+	
+	# Install Icon
+	install -D -m 644 $startdir/src/epsxe.icon \
+		$startdir/pkg/usr/share/pixmaps/epsxe.ico
+
+	# Install Desktop File
+	install -D -m 644 $startdir/src/epsxe.desktop \
+		$startdir/pkg/usr/share/applications/epsxe.desktop
+
+	# Clean up unneeded files
+	cd $startdir/pkg/opt/epsxe/
+	rm plugins/remove.me memcards/delete.me cfg/erase.me bios/erase.me \
+		snap/kill.me sstates/kill.me sstates/punch.me
+
+	# Change Permissions to root:games
+	chown root:20 $startdir/pkg/opt/{epsxe,epsxe/{cfg,cheats,memcards,patches,snap,sstates}}
+	chmod 775 $startdir/pkg/opt/{epsxe,epsxe/{cfg,cheats,memcards,patches,snap,sstates}}
+}

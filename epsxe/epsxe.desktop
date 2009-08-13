@@ -1,0 +1,11 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=ePSXe
+GenericName=ePSXe
+Comment=A cross-platform Sony Playstation emulator.
+Icon=/usr/share/pixmaps/epsxe.ico
+Exec=/usr/bin/epsxe
+Terminal=false
+Type=Application
+Categories=Application;Game
+StartupNotify=true

@@ -1,0 +1,52 @@
+# Contributor: Slash <demodevil5[at]yahoo[dot]com>
+
+pkgname=xreal-svn
+pkgver=1146
+pkgrel=1
+pkgdesc="XreaL is a free FPS based on the Quake3 engine with enhanced graphical effects, with modified Quake3 gameplay, and all media assets replaced with high-quality versions."
+url="http://xreal.sourceforge.net/"
+license="GPL"
+depends=('sdl' 'libxml2' 'libxxf86vm' 'libxxf86dga')
+makedepends=('subversion' 'scons')
+conflicts=()
+replaces=()
+backup=()
+install=
+source=()
+md5sums=()
+
+_svntrunk=https://svn.sourceforge.net/svnroot/xreal/trunk/xreal
+_svnmod=XreaL
+
+build() {
+	cd $startdir/src/
+
+	# Checkout Source Code
+	svn co $_svntrunk --config-dir ./ -r $pkgver $_svnmod
+
+	msg "SVN checkout done or server timeout"
+	msg "Starting make..."
+
+	# Clean and Build 
+	cd $_svnmod/
+	scons -c
+	scons || return 1
+
+	# Make Destination Directories
+	install -d $startdir/pkg/opt/xreal/base/ \
+		$startdir/pkg/usr/bin/
+
+	# Move Binaries to Destination Directory
+	install -D -m 755 xreal-server.x86 xreal.x86 \
+		$startdir/pkg/opt/xreal/
+
+	# Move Base to Destination Directory
+	cp -r base/ $startdir/pkg/opt/xreal/
+
+	# SymLink to /usr/bin
+	ln -sf /opt/xreal/xreal.x86 $startdir/pkg/usr/bin/xreal
+	ln -sf /opt/xreal/xreal-server.x86 $startdir/pkg/usr/bin/xreal-server
+
+	# Remove .svn/ directories from Destination Directory
+	find $startdir/pkg -name '.svn' -type d -exec rm -r {} \+
+}

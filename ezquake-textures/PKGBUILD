@@ -1,0 +1,46 @@
+# Contributor: Slash <demodevil5[at]yahoo[dot]com>
+
+pkgname=ezquake-textures
+pkgver=20061007
+pkgrel=1
+pkgdesc="Custom high resolution texture pack for ezQuake."
+url="http://ezquake.sourceforge.net/"
+license=""
+arch=('i686' 'x86_64')
+depends=('ezquake')
+makedepends=('unzip' 'unrar')
+conflicts=()
+provides=()
+install=
+source=('http://facelift.quakedev.com/download/qrp-textures-549files-7-22-06.zip' \
+'http://web.telia.com/~u14212562/retexturing/Borkums_DM4_100.zip' \
+'http://web.telia.com/~u14212562/retexturing/Borkums_DM6_100.zip' \
+'ftp://ftp.yi.se/pub/software/equake/addons/equake-skyboxpack-1.1b395.rar')
+md5sums=('b27627442d7a207ee4666b164f663153' 'bd982dc7f5f8754cd61cb1e9dc6ca265'\
+         'c481009ea1255d3a90bb74620f70716c' '7e409b0b2b552f83001609684aef0795')
+
+build() {
+	# Create Destination Directories
+	install -d $startdir/pkg/opt/quake/qw/textures/{dm4,dm6} \
+		$startdir/pkg/opt/quake/qw/env
+
+	# High Resolution Textures from The Quake Revitalization Project
+	#  WEBSITE: http://facelift.quakedev.com/
+	unzip $startdir/src/qrp-textures-549files-7-22-06.zip \
+		-d $startdir/pkg/opt/quake/qw/
+
+	# Borkum's DM4 Textures
+	#  WEBSITE: http://web.telia.com/~u14212562/retexturing/QuakeRetexturingProdject.htm
+	unzip $startdir/src/Borkums_DM4_100.zip \
+		-d $startdir/pkg/opt/quake/qw/textures/dm4/	
+
+	# Borkum's DM6 Textures
+	#  WEBSITE: http://web.telia.com/~u14212562/retexturing/QuakeRetexturingProdject.htm
+	unzip $startdir/src/Borkums_DM4_100.zip \
+		-d $startdir/pkg/opt/quake/qw/textures/dm6/
+	
+	# eQuake Skybox Pack
+	#  WEBSITE: ftp://ftp.yi.se/pub/software/equake/
+	cd $startdir/pkg/opt/quake/qw/env/
+	unrar e $startdir/src/equake-skyboxpack-1.1b395.rar
+}

@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=TA Spring
+Comment=taspring Client
+Icon=taspring.png
+Exec=/usr/bin/taspring
+Terminal=false
+Type=Application
+Categories=Application;Game
+StartupNotify=true

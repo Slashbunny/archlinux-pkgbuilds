@@ -1,0 +1,24 @@
+# Contributor: Slash <demodevil5[at]yahoo[dot]com>
+
+pkgname=stompboxes2
+pkgver=0.3
+pkgrel=1
+pkgdesc="StompBoxes is a real-time audio effects processor designed for guitar under Linux"
+url="http://mrbook.org/stompboxes/"
+license="GPL"
+depends=()
+makedepends=()
+conflicts=()
+replaces=()
+backup=()
+install=
+source=(http://mrbook.org/stompboxes/$pkgname-$pkgver.tar.gz)
+md5sums=('050a90e09952749412f8ac0b07938071')
+
+build() {
+  cd $startdir/src/$pkgname-$pkgver
+
+  ./configure --prefix=/usr
+  make || return 1
+  make DESTDIR=$startdir/pkg install
+}

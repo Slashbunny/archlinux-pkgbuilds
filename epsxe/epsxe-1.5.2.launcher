@@ -1,0 +1,6 @@
+#!/bin/bash
+
+cd "/opt/epsxe"
+./epsxe-1.5.2 "$@"
+exit $?
+

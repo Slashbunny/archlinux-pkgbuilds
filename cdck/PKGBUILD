@@ -1,0 +1,21 @@
+# Contributor: Slash <demodevil5[at]yahoo[dot]com>
+
+pkgname=cdck
+pkgver=0.6.0
+pkgrel=1
+pkgdesc="A simple program to verify CD/DVD quality"
+url="http://swaj.net/unix/"
+license="GPL"
+arch=('i686')
+options=('!libtool')
+install=
+source=("http://swaj.net/unix/cdck/$pkgname-$pkgver.tar.gz")
+md5sums=('3b23e23e8b0cc84483bcfd450457d3ed')
+
+build() {
+    cd $startdir/src/$pkgname-$pkgver
+
+    ./configure --prefix=/usr
+    make || return 1
+    make DESTDIR=$startdir/pkg install
+}

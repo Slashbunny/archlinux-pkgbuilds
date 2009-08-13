@@ -1,0 +1,46 @@
+# Contributor: Slash <demodevil5[at]yahoo[dot]com>
+
+pkgname=firefox-nightly
+pkgver=3.0a3pre
+pkgrel=1
+pkgdesc="Standalone web browser from mozilla.org - nightly build"
+url="http://www.mozilla.org/projects/firefox/"
+arch=('i686')
+conflicts=()
+provides=('firefox' 'gecko-sdk')
+depends=('mozilla-common' 'libstdc++5' 'libxt' 'nss')
+install=firefox-nightly.install
+source=('firefox-nightly.install' 'firefox-nightly.desktop' \
+"http://ftp.mozilla.org/pub/mozilla.org/firefox/nightly/latest-trunk/firefox-$pkgver.en-US.linux-i686.tar.bz2")
+md5sums=()
+
+build() {
+    cd $startdir/src/firefox
+
+    # Install Data to Destination Directory
+    install -d $startdir/pkg/opt/mozilla/lib/
+    mv $startdir/src/firefox $startdir/pkg/opt/mozilla/lib/firefox-nightly
+
+    # Remove Default Profile Setup
+    rm -rf $startdir/pkg/opt/mozilla/lib/firefox-nightly/bin/defaults
+
+    # Install Icon
+    install -D -m 644 $startdir/pkg/opt/mozilla/lib/firefox-nightly/icons/mozicon128.png \
+        $startdir/pkg/usr/share/pixmaps/firefox-nightly.png
+
+    # Install Desktop File
+    install -D -m 644 $startdir/src/firefox-nightly.desktop \
+        $startdir/pkg/usr/share/applications/firefox-nightly.desktop
+
+    # Install Launcher Script to Common Mozilla Bin Directory
+    install -D -m 755 $startdir/pkg/opt/mozilla/lib/firefox-nightly/firefox \
+        $startdir/pkg/opt/mozilla/bin/firefox-nightly
+
+    # Modify Launcher Script to Launch Firefox-Nightly
+    /bin/sed -i "s:/usr/local/lib/firefox-$pkgver:/opt/mozilla/lib/firefox-nightly:g" \
+        $startdir/pkg/opt/mozilla/bin/firefox-nightly
+    /bin/sed -i "s:/usr/local/lib/mre/mre-$pkgver:/opt/mozilla/lib/mre/mre-nightly:g" \
+        $startdir/pkg/opt/mozilla/bin/firefox-nightly
+    /bin/sed -i 's:MOZILLA_BIN="${progbase}-bin":MOZILLA_BIN="firefox-bin":g' \
+        $startdir/pkg/opt/mozilla/bin/firefox-nightly
+}

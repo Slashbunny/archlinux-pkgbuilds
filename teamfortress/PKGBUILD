@@ -1,0 +1,34 @@
+# Contributor: Slash <demodevil5[at]yahoo[dot]com>
+
+pkgname=teamfortress
+pkgver=2.8
+pkgrel=1
+pkgdesc="The popular Team Fortress modification for QuakeWorld"
+url="http://www.planetfortress.com/teamfortress/"
+license="GPL"
+depends=('fuhquake')
+makedepends=()
+conflicts=()
+replaces=()
+backup=()
+install=
+source=('http://www.slashbunny.com/quake/tf28.zip' \
+'http://www.slashbunny.com/quake/fortress-mappack.zip' \
+'http://www.slashbunny.com/quake/fortress-textures.zip')
+md5sums=('2b27075906b53d92cb8b11e20ef9f6cf' 'f4eb5d775d5604a0a46c599bbe9eb04e'\
+         '515eb05b2aa059311b896afc0ec09d8d')
+
+build() {
+	cd $startdir/src/
+
+	# Base TF Files	
+	install -d $startdir/pkg/opt/quake/
+	unzip -L tf28.zip -d $startdir/pkg/opt/quake/
+
+	# Map Pack
+	unzip fortress-mappack.zip -d $startdir/pkg/opt/quake/
+
+	# High Res Textures
+	install -d $startdir/pkg/opt/quake/fortress/textures/
+	unzip fortress-textures.zip -d $startdir/pkg/opt/quake/fortress/textures/
+}

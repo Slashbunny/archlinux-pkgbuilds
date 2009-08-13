@@ -1,0 +1,60 @@
+# Contributor: Slash <demodevil[at]yahoo[dot]com>
+# Contributor: skruw <skruw[at]home[dot]se>
+
+pkgname=taspring-svn
+pkgver=1198               
+pkgrel=1
+pkgdesc="Spring is a 3D RTS inspired by Total Annihilation"
+url="http://taspring.clan-sy.com/"
+license="GPL"
+depends=('openal' 'devil' 'boost' 'glew' 'libgl')
+makedepends=('scons' 'subversion')
+conflicts=('taspring')
+provides=('taspring')
+replaces=()
+backup=()
+install=
+source=(taspring.desktop \
+http://download2.berlios.de/taspring-linux/taspring-linux-data-0.70b2.tar.bz2 \
+http://www.ta-spring.com/mods/xectvsmynn/xect_vs_mynn06.sd7)
+md5sums=('f0a3486c01b05b80b4c5d02ae63825f0' '68c41186b6398c457256ec91ee186c0c'\
+         '3fa123d8d51fd6f0b0753ce9f4e14965')
+
+_svntrunk=svn://svn.berlios.de/taspring-linux/trunk
+_svnmod=taspring-linux-svn
+
+build() {
+  cd $startdir/src/
+
+	# Checkout SVN Code	
+	svn co $_svntrunk --config-dir ./ -r $pkgver $_svnmod
+
+	msg "SVN checkout done or server timeout"
+	msg "Starting make..."
+	
+	# Copy SVN Code to build directory
+	cp -r ./$_svnmod ./$_svnmod-build
+
+	# Build SVN Code
+	cd $_svnmod-build
+	scons prefix=$startdir/pkg/usr datadir=$startdir/pkg/opt/taspring configure
+	scons || return 1
+
+  # Install Data and Create Some Needed Directories
+  install -d -m755 $startdir/pkg/opt/taspring
+  mv $startdir/src/taspring-linux-data-0.70b2/* $startdir/pkg/opt/taspring/
+	install -d -m755 $startdir/pkg/opt/taspring/demos \
+									 $startdir/pkg/opt/taspring/maps/paths
+
+	# Install Binaries
+	scons install || return 1
+
+	# Install Mod
+	install -D -m644 $startdir/src/xect_vs_mynn06.sd7 $startdir/pkg/opt/taspring/mods/XTAPE.sd7
+
+	# Install Icon
+	install -D -m644 $startdir/src/$_svnmod/omni/resource/spring-redlogo.png $startdir/pkg/usr/share/pixmaps/taspring.png
+
+	# create .desktop file
+	install -D -m644 $startdir/src/taspring.desktop $startdir/pkg/usr/share/applications/taspring.desktop
+}

@@ -1,0 +1,18 @@
+
+post_install() {
+	echo ">>> Start Firefox Nightly by running the command: "
+	echo ">>>	'firefox-nightly'"
+}
+
+post_upgrade() {
+	post_install $1
+}
+
+pre_remove() {
+	/bin/true
+}
+
+op=$1
+shift
+
+$op $*

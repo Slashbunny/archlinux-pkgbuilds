@@ -1,0 +1,6 @@
+#!/bin/sh
+
+cd "/opt/quake3"
+./ioquake3.i386 $*
+exit $?
+

@@ -1,0 +1,37 @@
+# Contributor: Slash <demodevil5[at]yahoo[dot]com>
+
+pkgname=wuu
+pkgver=1.7.576
+pkgrel=1
+pkgdesc="Add-on Manager for World of Warcraft able to read and update from numerous popular websites."
+arch=('i686' 'x86_64')
+url="http://wuu.vagabonds.info/"
+license=('zlib')
+depends=('python' 'wxpython')
+makedepends=('setuptools')
+source=("http://wuu.vagabonds.info/files/WUU-${pkgver}-src.zip" "wuu.launcher")
+md5sums=('3e5ce37987e1c50f7e79770374a79860'
+         '0590bb0ed8c576a76e1b2f222e67945c')
+
+build() {
+  # Create Destination Directories
+  install -d $pkgdir/usr/{bin/,share/wuu/}
+
+  # Install Launcher Script
+  install -m 755 $srcdir/wuu.launcher \
+    $pkgdir/usr/bin/wuu
+
+  # Remove Some files from Source Directory for next step
+  rm $srcdir/{WUU-${pkgver}-src.zip,wuu.launcher}
+
+  # Compile all Python Modules
+  python -m compileall $srcdir/.
+
+  # Copy All Data to Package Directory
+  mv $srcdir/* $pkgdir/usr/share/wuu/
+
+  # Create Trace and Log Files so all users can write to them
+  touch $pkgdir/usr/share/wuu/WUU.{log,trace}
+  chmod 777 $pkgdir/usr/share/wuu/WUU.{log,trace}
+}
+

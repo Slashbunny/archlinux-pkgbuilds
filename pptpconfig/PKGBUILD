@@ -1,0 +1,19 @@
+# Contributor: Slash <demodevil5 [at] yahoo [dot] com>
+
+pkgname=pptpconfig 
+pkgver=20060821
+pkgrel=1
+pkgdesc=""
+url="http://pptpclient.sourceforge.net/"
+license="GPL"
+arch=('i686' 'x86_64')
+depends=('pptpclient')
+source=(http://dl.sourceforge.net/sourceforge/pptpclient/pptpconfig-$pkgver.tar.gz)
+md5sums=('fab314814d5178c29231999c1f316a7c')
+
+build() { 
+  cd $startdir/src/pptp-$pkgver
+  sed -i '/CFLAGS/d' Makefile
+  make || return 1
+  make DESTDIR=$startdir/pkg install
+}

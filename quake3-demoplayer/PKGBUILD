@@ -1,0 +1,23 @@
+# Contributor: Slash <demodevil5[at]yahoo[dot]com>
+
+pkgname=quake3-demoplayer
+pkgver=0.1
+pkgrel=1
+pkgdesc="Shell script to play quake3 demos with support for OSP & CPMA."
+url="http://www.rit.edu/~tjb8662/"
+license=""
+depends=('quake3' 'unzip' 'unrar')
+makedepends=()
+conflicts=()
+replaces=()
+backup=()
+install=
+source=('http://www.rit.edu/~tjb8662/demo')
+md5sums=('7c20e5fda78ee940d537a80d66352e1c')
+
+build() {
+	cd $startdir/src/
+
+	# Install Script
+	install -D -m 755 demo $startdir/pkg/usr/bin/q3demo
+}

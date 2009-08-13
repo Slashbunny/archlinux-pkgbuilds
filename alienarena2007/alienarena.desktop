@@ -1,0 +1,11 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Alien Arena 2007
+GenericName=Alien Arena
+Comment=Alien Arena 2007 is a free standalone deathmatch game based on the id software source code.
+Icon=/usr/share/pixmaps/alienarena.xpm
+Exec=/usr/bin/alienarena2007
+Terminal=false
+Type=Application
+Categories=Application;Game
+StartupNotify=true

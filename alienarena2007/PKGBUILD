@@ -1,0 +1,45 @@
+# Contributor: Slash <demodevil5[at]yahoo[dot]com>
+
+pkgname=alienarena2007
+pkgver=6.04
+pkgrel=2
+pkgdesc="Alien Arena 2007 is a free standalone deathmatch game based on the id software source code."
+url="http://red.planetarena.org/"
+license="GPL"
+depends=('glibc' 'libgl' 'sdl' 'mesa' 'libjpeg')
+arch=('i686' 'x86_64')
+license=('GPL')
+install=
+source=('alienarena.launcher' 'alienarenaded.launcher' 'alienarena.desktop' \
+'http://forsakenweb.com/alienarena/download2/alienarena2007-linux.zip')
+md5sums=('9d46ba15b4733566d244b10c56ecdcc3'
+         '781b0048ca435477aa3c2c6b52b6332e'
+         '9ec4e89a3e78ccb680237eadc48eef5e'
+         '7e0b83f3d8d250acdabfd026eac78b92')
+
+build() {
+    cd $startdir/src/
+
+    # Remove Unneeded Files and Directories
+    rm -r $startdir/src/alienarena2007/{AlienArena,AlienArenaDedicated,source/}
+
+    # Move Alien Arena Data to Package Directory
+    install -d $startdir/pkg/opt
+    mv $startdir/src/alienarena2007 $startdir/pkg/opt/
+
+    # Install Launcher Script (Client)
+    install -D -m 755 $startdir/src/alienarena.launcher \
+        $startdir/pkg/usr/bin/alienarena2007
+
+    # Install Launcher Script (Server)
+    install -D -m 755 $startdir/src/alienarenaded.launcher \
+        $startdir/pkg/usr/bin/alienarena2007ded
+
+    # Install Icon
+    install -D -m 644 $startdir/pkg/opt/alienarena2007/alienarena.xpm \
+        $startdir/pkg/usr/share/pixmaps/alienarena.xpm
+
+    # Install Desktop File
+    install -D -m 644 $startdir/src/alienarena.desktop \
+        $startdir/pkg/usr/share/applications/alienarena.desktop
+}

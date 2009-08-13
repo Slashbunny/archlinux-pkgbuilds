@@ -1,0 +1,20 @@
+# Moo
+
+pkgname=gxmame
+pkgver=0.35beta1
+pkgrel=1
+pkgdesc="An XMame Gtk+ frontend"
+url="http://gxmame.sf.net"
+pkgurl="http://heanet.dl.sourceforge.net/sourceforge/$pkgname/"
+arch=('i686')
+depends=("gtk2")
+makedepends=("perlxml")
+source=($pkgurl/$pkgname-$pkgver.tar.gz)
+md5sums=('f5eac2b6e397a9a1996ecaef1c5b8a20')
+
+build() {
+    cd $startdir/src/$pkgname-$pkgver
+    ./configure --prefix=/usr
+    make || return 1
+    make DESTDIR=$startdir/pkg install
+}

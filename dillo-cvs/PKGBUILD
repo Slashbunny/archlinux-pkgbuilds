@@ -1,0 +1,38 @@
+# Contributor: Slash <demodevil5[at]yahoo[dot]com>
+
+pkgname=dillo-cvs
+pkgver=20071121
+pkgrel=1
+pkgdesc="A small, fast graphical web browser built on GTK+"
+url="http://www.dillo.org/"
+license='GPL'
+arch=('i686' 'x86_64')
+depends=('gtk' 'libjpeg' 'libpng' 'openssl' 'gcc-libs')
+makedepends=('cvs')
+backup=(etc/dillo/{dillorc,dpidrc})
+conflicts=('dillo')
+provides=('dillo')
+source=()
+md5sums=()
+
+_cvsroot=":pserver:anonymous@auriga.wearlab.de:/sfhome/cvs/dillo"
+_cvsmod="dillo"
+
+build() {
+	cd $startdir/src
+	msg "Connecting to $_cvsmod CVS server...."
+
+	cvs -z3 -d $_cvsroot co -D $pkgver -f $_cvsmod
+	cd $_cvsmod
+	./autogen.sh
+
+	msg "CVS checkout done or server timeout"
+	msg "Starting make..."
+
+	cp -r ../$_cvsmod ../$_cvsmod-build
+	cd ../$_cvsmod-build
+
+	./configure --prefix=/usr --sysconfdir=/etc/dillo --disable-dlgui --enable-cookies --enable-png --enable-jpeg --enable-gif --enable-ssl --enable-ipv6
+	make || return 1
+	make DESTDIR=$startdir/pkg install
+}

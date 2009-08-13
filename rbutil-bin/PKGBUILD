@@ -1,0 +1,40 @@
+# Contributor: Slash <demodevil5 [at] yahoo [dot] com>
+# Contributor: Diego Gaustein <firstname@lastname.com.ar>
+
+pkgname=rbutil-bin
+pkgver=1.2.2
+pkgrel=1
+url="http://www.rockbox.org/twiki/bin/view/Main/RockboxUtility"
+pkgdesc="A Qt application for easily managing your Rockbox installation. (Binary Version)"
+arch=('i686' 'x86_64')
+license=('GPL')
+depends=('fontconfig' 'glib2' 'libpng' 'libsm' 'libusb' 'libxi' 'qt4' 'libxrandr')
+provides=('rbutil')
+conflicts=('rbutil' 'rbutil-svn')
+makedepends=()
+if [ "$CARCH" = "x86_64" ]; then
+    source=('rbutil-bin.desktop' "http://download.rockbox.org/rbutil/linux/rbutilqt-v${pkgver}-linux_x86_64bit.tar.bz2")
+    md5sums=('6eb022e8b114891313c91edd8be5befc'
+             '13e99f37e8511a022650e9b452102794')
+else
+    source=('rbutil-bin.desktop' "http://download.rockbox.org/rbutil/linux/rbutilqt-v${pkgver}.tar.bz2")
+    md5sums=('6eb022e8b114891313c91edd8be5befc'
+             'dcfb3b818ff51b926ae99d044ab96c0c')
+fi
+
+build() {
+    cd $srcdir;
+
+    # Install Binary File
+    if [ "$CARCH" = "x86_64" ]; then
+        install -Dm 755 $srcdir/rbutilqt-1.2.2-linux_x86_64bit \
+            $pkgdir/usr/bin/rbutilqt
+    else
+        install -Dm 755 $srcdir/rbutilqt-v1.2.2/rbutilqt \
+            $pkgdir/usr/bin/rbutilqt
+    fi
+
+    # Install Desktop File
+    install -Dm 644 $srcdir/rbutil-bin.desktop \
+        $pkgdir/usr/share/applications/rbutil-bin.desktop
+} 

@@ -1,0 +1,18 @@
+# Contributor: Slash <demodevil5[at]yahoo[dot]com>
+
+pkgname=largepackage
+pkgver=1
+pkgrel=1
+pkgdesc="Testing how pacman handles very large packages ;)"
+arch=('i686' 'x86_64')
+url="http://www.archlinux.org/"
+license=('GPL')
+install=
+source=()
+md5sums=()
+
+build() {
+    install -d $startdir/pkg/opt/
+
+    /bin/dd if=/dev/urandom of=$startdir/pkg/opt/largefile count=4194304
+}

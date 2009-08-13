@@ -1,0 +1,62 @@
+# Contributor: Slash <demodevil5[at]yahoo[dot]com>
+
+pkgname=mpd-svn
+pkgver=7399
+pkgrel=1
+pkgdesc="music daemon that plays mp3, flac, aac, mod, wav, mpc and ogg files"
+url="http://musicpd.org"
+depends=('glib2' 'alsa-lib' 'libid3tag' 'libmad' 'flac>=1.1.3' \
+        'audiofile' 'faad2>=2.5' 'libmikmod' 'libshout' 'libmpcdec' \
+        'libsamplerate' 'jack-audio-connection-kit' 'wavpack' 'libao' 'pulseaudio')
+# Optional: libao-pulse avahi
+makedepends=('autoconf' 'libtool' 'automake' 'subversion' 'pkgconfig')
+license=('GPL')
+arch=('i686' 'x86_64')
+install=mpd.install
+source=('mpd.init' 'mpd.install')
+conflicts=('mpd')
+provides=('mpd')
+md5sums=('b1fd15de359db08e4b9ae4b199640f0e'
+         'a37148fab6e4af21e3dc0f6d87664a80')
+
+_svntrunk=https://svn.musicpd.org/mpd/trunk
+_svnmod=mpd
+_revnumber=$pkgver
+
+build() {
+    cd $startdir/src
+    touch ~/.subversion
+
+    # Checkout Code from SVN
+    svn co $_svntrunk --config-dir ./ -r $_revnumber $_svnmod
+    cd $_svnmod
+    ./autogen.sh &> /dev/null
+    make distclean &> /dev/null
+
+    msg "SVN checkout done or the server timed out"
+
+    mkdir ../$_svnmod-build
+    cd ../$_svnmod-build
+
+    msg "Starting make..."
+
+    # Configure Source
+    ../$_svnmod/configure --prefix=/usr --sysconfdir=/etc --disable-jack --enable-ao --with-zeroconf=no # Optional: --enable-mvp --enable-mod
+
+    # Build Source
+    make || return 1
+
+    # Install Source
+    make prefix=$startdir/pkg/usr install
+
+    # Create Directories
+    install -d $startdir/pkg/var/{log/mpd,run/mpd,lib/mpd/playlists}
+
+    # Install init Script
+    install -D -m755 $startdir/src/mpd.init \
+        $startdir/pkg/etc/rc.d/mpd
+
+    # Install Sample Config
+    install -D -m644 $startdir/src/mpd/doc/mpdconf.example \
+        $startdir/pkg/etc/mpd.conf.example
+}

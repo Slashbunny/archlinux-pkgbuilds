@@ -1,0 +1,80 @@
+# Contributor: Slash <demodevil5[at]yahoo[dot]com>
+
+pkgname=pyquake3-svn
+pkgver=8
+pkgrel=1
+pkgdesc="A port of ioQuake3 to Python"
+url="http://sourceforge.net/projects/pyquake3"
+license="GPL"
+depends=('sdl' 'openal' 'python')
+makedepends=('nasm' 'subversion' 'pyrex')
+conflicts=('quake3' 'quake3-icculus-svn' 'ioquake3' 'ioquake3-svn' 'quake3-svn')
+provides=('quake3')
+install=quake3.install
+source=('quake3.install' 'quake3.desktop' 'quake3.launcher' 'quake3ded.launcher' \
+'ftp://ftp.idsoftware.com/idstuff/quake3/linux/linuxq3apoint-1.32b-3.x86.run')
+md5sums=('df46c620394b94dad07bcee2a25aa2ce' '9eca51e2b3ee3e0100944cba436a2a4c'\
+         '5021f1ed4eb3d71113ae35cde473fd90' 'ca18f30f375bfaf3b7dfe1f27070052c'\
+         'c71fdddccb20e8fc393d846e9c61d685')
+
+_svntrunk=https://pyquake3.svn.sourceforge.net/svnroot/pyquake3/trunk
+_svnmod=pyquake3
+_revnumber=$pkgver
+
+build() {
+	cd $startdir/src
+  
+	# Be sure to have a ~/.subversion.  If it doesn't exist, touch it.
+	touch ~/.subversion/
+  
+	# Checkout Files  
+	svn co $_svntrunk --config-dir ./ -r $_revnumber $_svnmod
+	cd $_svnmod
+  
+	msg "SVN checkout done or server timeout"
+	msg "Starting make..."
+
+	# Copy files to build directory
+	mkdir ../$_svnmod-build
+	cp -r * ../$_svnmod-build
+	cd ../$_svnmod-build
+
+	# Modify Makefile to correct install path
+	/bin/sed -i "s:/usr/local/games/quake3:$startdir/pkg/opt/quake3:" Makefile
+    export COPYDIR=$startdir/pkg/opt/quake3
+  
+	# Compile ioQuake3
+	make || return 1
+
+	# Install Files
+	make copyfiles || return 1 
+
+	# Extract Patch Files
+	cd $startdir/src/
+	chmod +x $startdir/src/linuxq3apoint-1.32b-3.x86.run
+	$startdir/src/linuxq3apoint-1.32b-3.x86.run --tar xf
+
+	# Install Quake 3 Patch Files
+	install -m 644 $startdir/src/baseq3/*.pk3 \
+		$startdir/pkg/opt/quake3/baseq3/
+
+	# Install Quake 3 Expansion Pack Patch Files
+	install -m 644 $startdir/src/missionpack/*.pk3 \
+		$startdir/pkg/opt/quake3/missionpack/
+
+	# Install Launcher (Client)
+	install -D -m 755 $startdir/src/quake3.launcher \
+		$startdir/pkg/usr/bin/quake3
+
+	# Install Launcher (Server)
+	install -D -m 755 $startdir/src/quake3ded.launcher \
+		$startdir/pkg/usr/bin/quake3ded
+	
+	# Install Desktop File
+	install -D -m 644 $startdir/src/quake3.desktop \
+		$startdir/pkg/usr/share/applications/quake3.desktop
+
+	# Install Icon File
+	install -D -m 644 $startdir/src/pyquake3/code/unix/quake3.png \
+		$startdir/pkg/usr/share/pixmaps/quake3.png
+}

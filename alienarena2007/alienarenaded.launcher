@@ -1,0 +1,6 @@
+#!/bin/bash
+
+cd "/opt/alienarena2007"
+./crded.`uname -m` +set game arena +set port 27910 $*
+exit $?
+

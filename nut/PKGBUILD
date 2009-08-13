@@ -1,0 +1,33 @@
+# Contributor: Slash <demodevil5 [at] yahoo [dot] com>
+
+pkgname=nut
+pkgver=13.0
+pkgrel=1
+pkgdesc="Records what you eat and analyzes your meals for nutrient levels in terms of the Daily Value or DV which is the standard for food labeling in the US."
+url='http://nut.sourceforge.net/'
+license='GPL'
+arch=('i686' 'x86_64')
+source=("http://downloads.sourceforge.net/nut/$pkgname-$pkgver.tar.gz")
+md5sums=('7471e0481114eae4286a715f5e029c6b')
+
+build() {
+  cd $startdir/src/$pkgname-$pkgver
+
+  # Create Destination Directories
+  install -d $startdir/pkg/usr/{lib/$pkgname/,man/man1/,bin/}
+
+  # Modify Makefile
+  /bin/sed -i "s|/usr/local/lib/$pkgname|/usr/lib/$pkgname|" Makefile
+
+  # Install Data
+  install -m 644 raw.data/* $startdir/pkg/usr/lib/$pkgname/
+
+  # Build Program
+  make || return 1
+
+  # Install Binary
+  install -m 755 $pkgname $startdir/pkg/usr/bin/
+
+  # Install Man Page
+  install $pkgname.1 $startdir/pkg/usr/man/man1/
+}

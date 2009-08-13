@@ -1,0 +1,12 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Quake III
+GenericName=Quake III
+Comment=Quake III Open Source Engine
+Exec=/usr/bin/quake3
+Icon=quake3.xpm
+StartupNotify=true
+Terminal=false
+Type=Application
+Categories=Qt;KDE;GNOME;Application;Game;
+

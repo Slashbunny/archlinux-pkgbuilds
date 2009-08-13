@@ -1,0 +1,36 @@
+# Contributor: Slash <demodevil5 [at] yahoo [dot] com>
+
+pkgname=wxremind
+pkgver=0.9.13
+pkgrel=1
+pkgdesc="wxRemind is a graphical front/back-end for Remind, a powerful calendar and alarm application"
+arch=('i686' 'x86_64')
+url="http://www.duke.edu/~dgraham/wxRemind/"
+license=('GPL')
+depends=('remind' 'python' 'wxpython' 'docutils')
+makedepends=('zip')
+provides=()
+conflicts=()
+replaces=()
+source=("http://www.duke.edu/~dgraham/wxRemind/wxRemind-src-$pkgver.tgz")
+md5sums=('c837c219ff4379c26793ac48c4441b2a')
+
+build() {
+    cd "$startdir/src/$pkgname-$pkgver"
+
+    # Create Destination Directory
+    install -d $startdir/pkg/usr/{bin,share/wxremind}
+
+    # Create Executables
+    ./make_execs
+
+    # Copy all files to Destination Directory
+    mv $startdir/src/$pkgname-$pkgver/* $startdir/pkg/usr/share/wxremind/
+
+    # Link Executables to /usr/bin
+    ln -sf /usr/share/wxremind/wxremalert $startdir/pkg/usr/bin/wxremalert
+    ln -sf /usr/share/wxremind/wxremdata  $startdir/pkg/usr/bin/wxremdata
+    ln -sf /usr/share/wxremind/wxremind   $startdir/pkg/usr/bin/wxremind
+    ln -sf /usr/share/wxremind/yeagtd.py  $startdir/pkg/usr/bin/yeagtd.py
+}
+
