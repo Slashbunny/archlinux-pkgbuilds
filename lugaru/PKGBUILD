@@ -1,18 +1,18 @@
 # Contributor: Slash <demodevil5 [at] yahoo [dot] com>
 
 pkgname=lugaru
-pkgver=1.0
-pkgrel=3
+pkgver=1.0b
+pkgrel=1
 pkgdesc="Lugaru is a third-persion action game featuring a unique close-range combat system"
 url="http://www.wolfire.com/lugaru"
 license=('custom')
 arch=('i686')
-depends=('libxext' 'libstdc++5')
-source=('lugaru.launcher' 'lugaru.desktop'
-"http://cdn.wolfire.com/games/$pkgname-linux-x86-$pkgver.zip")
+depends=('gcc-libs' 'openal' 'sdl')
+source=('lugaru.launcher' 'lugaru.desktop' \
+"http://cdn.wolfire.com/games/lugaru-linux-x86-${pkgver}.bin")
 md5sums=('840f647ec903fc2676a2e7e6432b7ce0'
-         'a36f713b1c0f7d7bf2191794a8868185'
-         'c397a5f0630bc80aa4a47ea076e90f24')
+         '68b7e5c6119d0e7a194f646332b8271a'
+         '2261caf7aea2125830f69958e14a704a')
 
 build() {
     cd $srcdir
@@ -20,19 +20,11 @@ build() {
     # Create Destination Directory
     install -d $pkgdir/opt/lugaru
 
-    # Extract Data from the Installer
-    chmod +x lugaru-linux-x86-1.0a.run
-    ./lugaru-linux-x86-1.0a.run --noexec --tar xvf
+    # Extract Game Data
+    unzip -o $srcdir/lugaru-linux-x86-${pkgver}.bin
 
-    # Extract Game Data into Destination Directory
-    bsdtar -x -o -C $pkgdir/opt/lugaru -f $srcdir/lugaru-data.tar
-
-    # Extract Game Binaries into Destination Directory
-    bsdtar -x -o -C $pkgdir/opt/lugaru -f $srcdir/lugaru-linux-x86.tar
-
-    # Install Startup Script
-    install -D -m 755 $srcdir/bin/lugaru \
-        $pkgdir/opt/lugaru/lugaru
+    # Install Game Data
+    cp -r $srcdir/data/* $pkgdir/opt/lugaru
 
     # Install Launcher
     install -D -m 755 $srcdir/lugaru.launcher \
@@ -43,6 +35,6 @@ build() {
         $pkgdir/usr/share/applications/lugaru.desktop
 
     # Install Icon File
-    install -D -m 644 $srcdir/lugaru.xpm \
-        $pkgdir/usr/share/pixmaps/lugaru.xpm
+    install -D -m 644 $srcdir/data/lugaru.png \
+        $pkgdir/usr/share/pixmaps/lugaru.png
 }
