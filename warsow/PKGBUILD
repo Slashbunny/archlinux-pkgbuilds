@@ -2,7 +2,7 @@
 
 pkgname=warsow
 pkgver=0.5
-pkgrel=1
+pkgrel=2
 pkgdesc="Free online multiplayer competitive FPS based on the Qfusion engine."
 url="http://www.warsow.net/"
 license=('GPL' 'custom:Warsow Content License')
@@ -34,6 +34,12 @@ build() {
 
     # Move Data to Destination Directory
     cp -r $srcdir/warsow/basewsw $pkgdir/opt/warsow
+
+    # Patch Makefile to use correct program to query for system information
+    sed -i 's:openal-config:pkg-config:g' $srcdir/warsow-src/source/Makefile
+
+    # Patch Sound Code to point to base openal library
+    sed -i 's:libopenal.so.0:libopenal.so:g' $srcdir/warsow-src/source/snd_openal/snd_main.c
 
     # Compile Warsow
     cd $srcdir/warsow-src/source/
