@@ -43,7 +43,7 @@ build() {
 
     # Compile Warsow
     cd $srcdir/warsow-src/source/
-    make || return 1
+    make -j1 || return 1
 
     # Move Compiled Data to Destination Directory
     cp -r $srcdir/warsow-src/source/release/* \
