@@ -1,8 +1,10 @@
 # Contributor: Slash <demodevil5[at]yahoo[dot]com>
+# Contributor: Babets
+# Contributor: Vain
 
 pkgname=warsow
 pkgver=0.5
-pkgrel=2
+pkgrel=3
 pkgdesc="Free online multiplayer competitive FPS based on the Qfusion engine."
 url="http://www.warsow.net/"
 license=('GPL' 'custom:Warsow Content License')
@@ -40,6 +42,12 @@ build() {
 
     # Patch Sound Code to point to base openal library
     sed -i 's:libopenal.so.0:libopenal.so:g' $srcdir/warsow-src/source/snd_openal/snd_main.c
+
+    # Patch AngelScript so it compiles correctly on i686
+    if [ "$CARCH" == "i686" ]; then
+        sed -i 's:CXXFLAGS = \(.*\):CXXFLAGS = -march=i686 \1:' \
+            $srcdir/warsow-src/libsrcs/angelscript/angelSVN/sdk/angelscript/projects/gnuc/makefile
+    fi
 
     # Compile Warsow
     cd $srcdir/warsow-src/source/
