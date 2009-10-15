@@ -1,0 +1,44 @@
+# Contributor: Slash <demodevil5 [at] yahoo [dot] com>
+# Contributor: kezar <kezar@inbox.com>
+
+pkgname=worldofgoo
+pkgver=1.41
+pkgrel=1
+pkgdesc="World of Goo is a physics-based puzzle / construction game."
+arch=('i686' 'x86_64')
+url='http://www.2dboy.com'
+license=('custom:Commercial')
+[ "$CARCH" = "x86_64" ] && depends=('lib32-libxdamage' 'lib32-mesa' 'lib32-libgl')
+[ "$CARCH" = "i686"   ] && depends=('libxdamage' 'mesa' 'libgl')
+conflicts=('worldofgoo-demo')
+source=("WorldOfGooSetup.$pkgver.tar.gz" 'worldofgoo.desktop')
+md5sums=('f5afa40893d0fbcc37885191404f6d8c'
+         '9aee05c37c91b2bb8d6b4c1633c932a6')
+
+build() 
+{
+    # Create Destination Directories
+    install -d $pkgdir/usr/{bin,share/worldofgoo/}
+	
+    # Install World of Goo Data
+	cp -r $srcdir/WorldOfGoo/* \
+        $pkgdir/usr/share/worldofgoo/
+
+    # Create Link to Launch Game
+	ln -s /usr/share/worldofgoo/worldofgoo \
+        $pkgdir/usr/bin/worldofgoo
+
+    # Install Desktop File
+	install -D -m 644 $srcdir/worldofgoo.desktop \
+        $pkgdir/usr/share/applications/worldofgoo.desktop
+
+    # Install Icon
+    install -D -m 644 $pkgdir/usr/share/worldofgoo/icons/128x128.png \
+        $pkgdir/usr/share/pixmaps/worldofgoo.png
+
+    # Install License
+    install -D -m 644 $pkgdir/usr/share/worldofgoo/eula.txt \
+        $pkgdir/usr/share/licenses/$pkgname/eula.txt
+}
+
+
