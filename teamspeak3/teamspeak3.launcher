@@ -1,0 +1,6 @@
+#!/bin/bash
+
+cd "/opt/teamspeak3"
+./TS3_BINARY $@
+exit $?
+

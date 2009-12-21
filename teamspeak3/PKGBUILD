@@ -1,0 +1,73 @@
+# Contributor: Slash <demodevil5[at]yahoo[dot]com>
+
+pkgname=teamspeak3
+pkgver=beta2
+pkgrel=1
+pkgdesc="TeamSpeak is software for quality voice communication via the Internet"
+url="http://www.teamspeak.com/"
+license=('custom')
+depends=('fmodex' 'qt')
+arch=('i686' 'x86_64')
+if [ $CARCH == "i686" ]; then
+    source=('teamspeak3.desktop' 'icon.xpm' 'teamspeak3.launcher' \
+    "http://ftp.4players.de/pub/hosted/ts3/releases/beta-2/TeamSpeak3-Client-linux_x86-3.0.0-${pkgver}.run")
+    md5sums=('be58a8798c5d1b7e95a89f6a6482db3e'
+             '23ea0a36feee844016e62afaa5da97c8'
+             '85d99798e7f8b1d0e082048d05eacce3'
+             '9c69a4fdbaaf62f9d06676d65183575f')
+else
+    source=('teamspeak3.desktop' 'icon.xpm' 'teamspeak3.launcher' \
+    "http://ftp.4players.de/pub/hosted/ts3/releases/beta-2/TeamSpeak3-Client-linux_amd64-3.0.0-${pkgver}.run")
+    md5sums=('be58a8798c5d1b7e95a89f6a6482db3e'
+             '23ea0a36feee844016e62afaa5da97c8'
+             '85d99798e7f8b1d0e082048d05eacce3'
+             'e241c14f84ee76b9100bc2572a1ee8d5')
+fi
+
+build() {
+    cd $srcdir
+
+    # Create Destination Directories
+    install -d $pkgdir/{usr/bin/,opt/}
+
+    if [ $CARCH == "i686" ]; then
+        # Make Installer Executable
+        chmod +x TeamSpeak3-Client-linux_x86-3.0.0-${pkgver}.run
+
+        # Run Installer
+        ./TeamSpeak3-Client-linux_x86-3.0.0-${pkgver}.run --noexec --target teamspeak3
+
+        # Modify Client Launcher
+        /bin/sed -i "s:TS3_BINARY:ts3client_linux_x86:" \
+            $startdir/src/teamspeak3.launcher
+    else
+        # Make Installer Executable
+        chmod +x TeamSpeak3-Client-linux_amd64-3.0.0-${pkgver}.run
+
+        # Run Installer
+        ./TeamSpeak3-Client-linux_amd64-3.0.0-${pkgver}.run --noexec --target teamspeak3
+
+        # Modify Client Launcher
+        /bin/sed -i "s:TS3_BINARY:ts3client_linux_amd64:" \
+            $startdir/src/teamspeak3.launcher
+    fi
+
+    # Move Program Data to Package Directory
+    mv $srcdir/teamspeak3/ $pkgdir/opt/
+
+    # Install Desktop File
+    install -D -m644 $srcdir/teamspeak3.desktop \
+        $pkgdir/usr/share/applications/teamspeak3.desktop
+
+    # Install Icon File
+    install -D -m644 $srcdir/icon.xpm \
+        $pkgdir/usr/share/pixmaps/teamspeak3.xpm
+
+    # Install Custom License
+    install -D -m644 $pkgdir/opt/teamspeak3/LICENSE \
+        $pkgdir/usr/share/licenses/$pkgname/LICENSE
+
+    # Install Client Launcher
+    install -D -m755 $srcdir/teamspeak3.launcher \
+        $pkgdir/usr/bin/teamspeak3
+}
