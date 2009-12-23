@@ -2,12 +2,12 @@
 
 pkgname=hon
 pkgver=0.1.61
-pkgrel=1
+pkgrel=2
 pkgdesc="Heroes of Newerth is a Real Time Strategy game heavily influcenced by DotA"
 arch=('i686' 'x86_64')
 url="http://www.heroesofnewerth.com/"
 license=('custom:HoN')
-depends=('curl' 'fmodex' 'libgl' 'libpng' 'libxml2' 'mesa' 'speex')
+depends=('libgl' 'libxml2' 'mesa')
 makedepends=('unzip')
 install='hon.install'
 source=('hon.desktop' 'hon.launcher' \
