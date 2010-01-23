@@ -5,9 +5,10 @@ pkgver=0.49b
 pkgrel=3
 pkgdesc="True Combat: Elite (TCE) is a completely free, realistic, team-based modification for Enemy Territory."
 url="http://www.tcelite.net/"
-arch=('i686')
+arch=('i686' 'x86_64')
 license=('custom')
 depends=('enemy-territory' 'libstdc++5')
+[[ "$CARCH" == "x86_64" ]] && depends=('enemy-territory' 'lib32-libstdc++5')
 makedepends=('unzip')
 backup=('opt/enemy-territory/tcetest/server.cfg')
 install=
