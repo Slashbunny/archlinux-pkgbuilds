@@ -1,7 +1,7 @@
 # Contributor: Slash <demodevil5[at]yahoo[dot]com>
 
 pkgname=mpd-git
-pkgver=20091202
+pkgver=20100118
 pkgrel=1
 pkgdesc="music daemon that plays mp3, flac, aac, mod, wav, mpc and ogg files"
 url="http://musicpd.org"
