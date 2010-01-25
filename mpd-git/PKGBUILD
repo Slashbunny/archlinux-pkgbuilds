@@ -1,23 +1,26 @@
 # Contributor: Slash <demodevil5[at]yahoo[dot]com>
 
 pkgname=mpd-git
-pkgver=20100118
+pkgver=20100125
 pkgrel=1
 pkgdesc="music daemon that plays mp3, flac, aac, mod, wav, mpc and ogg files"
 url="http://musicpd.org"
 depends=(
-    'alsa-lib' 'audiofile' 'curl' 'faad2>=2.6.1' 'ffmpeg' 'flac>=1.1.3' 'glib2'
-    'libao' 'libcdio' 'libid3tag' 'libmad' 'libmikmod' 'libmodplug' 
-    'libmpcdec>=1.2.5' 'libsamplerate' 'libshout' 'wavpack' 'zziplib'
-)
+    'alsa-lib' 'audiofile' 'curl' 'faad2' 'ffmpeg' 'flac' 'glib2'
+    'libcdio' 'libid3tag' 'libmad' 'libmikmod' 'libmodplug' 'libmpcdec'
+    'libsamplerate' 'libvorbis' 'libid3tag' 'libshout' 'mpg123' 'wavpack' 'zziplib')
 makedepends=('autoconf' 'automake' 'git' 'libtool' 'pkgconfig')
 optdepends=(
     'avahi: Support for Avahi Zeroconf Backend'
     'jack-audio-connection-kit: Support for JACK Audio'
-    'libao-pulse: Support for the PulseAudio Sound Server'
+    'lame: Required to serve mp3 streams (or use twolame)'
+    'libao: Audio Library not recommended unless OSS/ALSA does not work'
+    'libao-pulse: Support for the PulseAudio Sound Server (if using libao)'
     'libcue: Support for embedded cuesheets'
     'libmms: Support for MMS Protocol'
+    'pulseaudio: Support for the PulseAudio Sound Server'
     'sqlite3: Support for SQLite Database'
+    'twolame: Required to serve mp3 streams (or use lame)'
 )
 license=('GPL')
 arch=('i686' 'x86_64')
@@ -25,9 +28,8 @@ conflicts=('mpd')
 provides=('mpd')
 replaces=('mpd-svn')
 install=mpd.install
-source=('mpd.init' 'mpd.install')
-md5sums=('b1fd15de359db08e4b9ae4b199640f0e'
-         '332e0a4569ace3a5854070625a04f788')
+source=('mpd.init')
+md5sums=('b1fd15de359db08e4b9ae4b199640f0e')
 
 _gitroot="git://git.musicpd.org/master/mpd.git"
 _gitname="mpd"
@@ -55,14 +57,14 @@ build() {
     ./autogen.sh \
         --prefix=/usr \
         --sysconfdir=/etc \
-        --enable-ao \
+        --disable-ao \
+        --disable-jack \
+        --disable-pulse \
         --enable-bzip2 \
         --enable-iso9660 \
         --enable-lastfm \
         --enable-modplug \
         --enable-zip \
-        --disable-jack \
-        --disable-pulse \
         --with-zeroconf=no 
         #--enable-cue \
         #--enable-sqlite \
