@@ -1,23 +1,23 @@
 # Contributor: Slash <demodevil5[at]yahoo[dot]com>
 
 pkgname=teamspeak3
-pkgver=beta13
+pkgver=beta15
 pkgrel=1
 pkgdesc="TeamSpeak is software for quality voice communication via the Internet"
 url="http://www.teamspeak.com/"
 license=('custom')
 depends=('qt')
 arch=('i686' 'x86_64')
-source=("http://ftp.4players.de/pub/hosted/ts3/releases/beta-13/TeamSpeak3-Client-linux_x86-3.0.0-${pkgver}.run" \
+source=("http://ftp.4players.de/pub/hosted/ts3/releases/beta-15/TeamSpeak3-Client-linux_x86-3.0.0-${pkgver}.run" \
 'teamspeak3.desktop' 'icon.xpm' 'teamspeak3.launcher')
-md5sums=('54e6e115063050cd38f2d42ada15aad3'
+md5sums=('e7ceb45f550b278b17a81503bc099117'
          'be58a8798c5d1b7e95a89f6a6482db3e'
          '19f103384e4c1a0aafc8fed44de0c87b'
-         '85d99798e7f8b1d0e082048d05eacce3')
+         '170fcbb1b468ce4f3dba7ee3fb2a1c6d')
 
 if [ $CARCH == "x86_64" ]; then
-    source[0]="http://ftp.4players.de/pub/hosted/ts3/releases/beta-13/TeamSpeak3-Client-linux_amd64-3.0.0-${pkgver}.run"
-    md5sums[0]='6e8dff24016cd5d7250b2c1a8d3ab42a'
+    source[0]="http://ftp.4players.de/pub/hosted/ts3/releases/beta-15/TeamSpeak3-Client-linux_amd64-3.0.0-${pkgver}.run"
+    md5sums[0]='b4d7c8447aa4ba05bc6003278a1f21ac'
 fi
 
 build() {
@@ -32,20 +32,12 @@ build() {
 
         # Run Installer
         ./TeamSpeak3-Client-linux_x86-3.0.0-${pkgver}.run --noexec --target teamspeak3
-
-        # Modify Client Launcher
-        /bin/sed -i "s:TS3_BINARY:ts3client_linux_x86:" \
-            $startdir/src/teamspeak3.launcher
     else
         # Make Installer Executable
         chmod +x TeamSpeak3-Client-linux_amd64-3.0.0-${pkgver}.run
 
         # Run Installer
         ./TeamSpeak3-Client-linux_amd64-3.0.0-${pkgver}.run --noexec --target teamspeak3
-
-        # Modify Client Launcher
-        /bin/sed -i "s:TS3_BINARY:ts3client_linux_amd64:" \
-            $startdir/src/teamspeak3.launcher
     fi
 
     # Move Program Data to Package Directory
