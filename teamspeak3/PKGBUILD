@@ -2,22 +2,24 @@
 
 pkgname=teamspeak3
 pkgver=beta15
-pkgrel=1
+pkgrel=2
 pkgdesc="TeamSpeak is software for quality voice communication via the Internet"
 url="http://www.teamspeak.com/"
 license=('custom')
 depends=('qt')
 arch=('i686' 'x86_64')
-source=("http://ftp.4players.de/pub/hosted/ts3/releases/beta-15/TeamSpeak3-Client-linux_x86-3.0.0-${pkgver}.run" \
+source=("TeamSpeak3-Client-linux_x86-3.0.0-${pkgver}.run" \
 'teamspeak3.desktop' 'icon.xpm' 'teamspeak3.launcher')
 md5sums=('e7ceb45f550b278b17a81503bc099117'
          'be58a8798c5d1b7e95a89f6a6482db3e'
          '19f103384e4c1a0aafc8fed44de0c87b'
          '170fcbb1b468ce4f3dba7ee3fb2a1c6d')
+_TSARCH='x86'
 
 if [ $CARCH == "x86_64" ]; then
-    source[0]="http://ftp.4players.de/pub/hosted/ts3/releases/beta-15/TeamSpeak3-Client-linux_amd64-3.0.0-${pkgver}.run"
+    source[0]="TeamSpeak3-Client-linux_amd64-3.0.0-${pkgver}.run"
     md5sums[0]='b4d7c8447aa4ba05bc6003278a1f21ac'
+    _TSARCH='amd64'
 fi
 
 build() {
@@ -26,19 +28,11 @@ build() {
     # Create Destination Directories
     install -d $pkgdir/{usr/bin/,opt/}
 
-    if [ $CARCH == "i686" ]; then
-        # Make Installer Executable
-        chmod +x TeamSpeak3-Client-linux_x86-3.0.0-${pkgver}.run
+    # Make Installer Executable
+    chmod +x TeamSpeak3-Client-linux_${_TSARCH}-3.0.0-${pkgver}.run
 
-        # Run Installer
-        ./TeamSpeak3-Client-linux_x86-3.0.0-${pkgver}.run --noexec --target teamspeak3
-    else
-        # Make Installer Executable
-        chmod +x TeamSpeak3-Client-linux_amd64-3.0.0-${pkgver}.run
-
-        # Run Installer
-        ./TeamSpeak3-Client-linux_amd64-3.0.0-${pkgver}.run --noexec --target teamspeak3
-    fi
+    # Run Installer
+    ./TeamSpeak3-Client-linux_${_TSARCH}-3.0.0-${pkgver}.run --noexec --target teamspeak3
 
     # Move Program Data to Package Directory
     mv $srcdir/teamspeak3/ $pkgdir/opt/
