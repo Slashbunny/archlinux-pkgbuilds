@@ -8,14 +8,14 @@ url="http://www.rockbox.org/twiki/bin/view/Main/RockboxUtility"
 pkgdesc="A Qt application for easily managing your Rockbox installation. (Binary Version)"
 arch=('i686' 'x86_64')
 license=('GPL')
-depends=('fontconfig' 'glib2' 'libpng' 'libsm' 'libusb' 'libxi' 'qt4' 'libxrandr')
+depends=('fontconfig' 'glib2' 'libpng12' 'libsm' 'libusb' 'libxi' 'qt' 'libxrandr')
 provides=('rbutil')
 conflicts=('rbutil' 'rbutil-svn')
 makedepends=()
 if [ "$CARCH" = "x86_64" ]; then
-    source=('rbutil-bin.desktop' "http://download.rockbox.org/rbutil/linux/rbutilqt-v1.2.2-linux_x86_64bit.tar.bz2")
+    source=('rbutil-bin.desktop' "http://download.rockbox.org/rbutil/linux/rbutilqt-v${pkgver}-64bit.tar.bz2")
     md5sums=('6eb022e8b114891313c91edd8be5befc'
-             '13e99f37e8511a022650e9b452102794')
+             'b2d5b8a56e9728248937723759735fbc')
 else
     source=('rbutil-bin.desktop' "http://download.rockbox.org/rbutil/linux/rbutilqt-v${pkgver}.tar.bz2")
     md5sums=('6eb022e8b114891313c91edd8be5befc'
@@ -26,13 +26,8 @@ build() {
     cd $srcdir;
 
     # Install Binary File
-    if [ "$CARCH" = "x86_64" ]; then
-        install -Dm 755 $srcdir/rbutilqt-1.2.2-linux_x86_64bit \
-            $pkgdir/usr/bin/rbutilqt
-    else
-        install -Dm 755 $srcdir/rbutilqt-v${pkgver}/rbutilqt \
-            $pkgdir/usr/bin/rbutilqt
-    fi
+    install -Dm 755 $srcdir/rbutilqt-v${pkgver}/rbutilqt \
+        $pkgdir/usr/bin/rbutilqt
 
     # Install Desktop File
     install -Dm 644 $srcdir/rbutil-bin.desktop \

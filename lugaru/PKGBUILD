@@ -1,7 +1,7 @@
 # Contributor: Slash <demodevil5 [at] yahoo [dot] com>
 
 pkgname=lugaru
-pkgver=1.0b
+pkgver=1.0c
 pkgrel=1
 pkgdesc="Lugaru is a third-persion action game featuring a unique close-range combat system"
 url="http://www.wolfire.com/lugaru"
@@ -9,10 +9,10 @@ license=('custom')
 arch=('i686')
 depends=('gcc-libs' 'openal' 'sdl')
 source=('lugaru.launcher' 'lugaru.desktop' \
-"http://cdn.wolfire.com/games/lugaru-linux-x86-${pkgver}.bin")
+"http://cdn.wolfire.com/games/lugaru/lugaru-linux-x86-${pkgver}.bin")
 md5sums=('840f647ec903fc2676a2e7e6432b7ce0'
          '68b7e5c6119d0e7a194f646332b8271a'
-         '2261caf7aea2125830f69958e14a704a')
+         '3ae780aea1bee2c6a39adeb20cc7cb33')
 
 build() {
     cd $srcdir
