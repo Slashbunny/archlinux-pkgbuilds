@@ -1,7 +1,7 @@
 # Contributor: Slash <demodevil5[at]yahoo[dot]com>
 
 pkgname=pidgin-gfire
-pkgver=0.9.0
+pkgver=0.9.1
 pkgrel=1
 pkgdesc="Gfire is an Plugin for the Pidgin IM client which allows you to connect the Xfire network."
 arch=('i686' 'x86_64')
@@ -10,7 +10,7 @@ license=('GPL')
 depends=('glib2' 'pidgin')
 makedepends=('pkgconfig')
 source=("http://downloads.sourceforge.net/gfire/pidgin-gfire-$pkgver.tar.bz2")
-md5sums=('e9026b3ca6f68cae331db2c029059753')
+md5sums=('bbd83c8f75d9caea1fa986d633020c6a')
 
 build() {
     cd "$srcdir/pidgin-gfire-$pkgver"
