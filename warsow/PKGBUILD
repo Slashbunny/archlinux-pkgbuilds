@@ -12,8 +12,8 @@ arch=('i686' 'x86_64')
 depends=('curl' 'libjpeg' 'libvorbis' 'libxinerama' 'libxxf86dga' 'libxxf86vm' 'sdl')
 makedepends=('mesa' 'openal' 'unzip')
 source=('warsow.desktop' 'warsow.launcher' 'wsw-server.launcher' 'wswtv-server.launcher' \
-"warsow_${pkgver}_unified.zip::http://www.warsow.net/download/mirror.php?file=warsow_${pkgver}_unified.zip" \
-"warsow_${pkgver}_sdk.zip::http://www.warsow.net/download/mirror.php?file=warsow_${pkgver}_sdk.zip")
+"http://static.warsow.net/release/warsow_${pkgver}_unified.zip" \
+"http://static.warsow.net/release/warsow_${pkgver}_sdk.zip")
 md5sums=('f9bf60c80820237f7097c4e50a9582cd'
          'ec00081d81ad9802a8ca42fc2eac5498'
          'f73e10c26197178df71b941b10bf83d7'
