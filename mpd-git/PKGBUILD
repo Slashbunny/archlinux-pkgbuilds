@@ -1,7 +1,7 @@
 # Contributor: Slash <demodevil5[at]yahoo[dot]com>
 
 pkgname=mpd-git
-pkgver=20100616
+pkgver=20100728
 pkgrel=1
 pkgdesc="music daemon that plays mp3, flac, aac, mod, wav, mpc and ogg files"
 url="http://musicpd.org"
@@ -29,7 +29,7 @@ provides=('mpd')
 replaces=('mpd-svn')
 install=mpd.install
 source=('mpd.init')
-md5sums=('b1fd15de359db08e4b9ae4b199640f0e')
+md5sums=('ab1e793097e612b7df7acee275206167')
 
 _gitroot="git://git.musicpd.org/master/mpd.git"
 _gitname="mpd"
