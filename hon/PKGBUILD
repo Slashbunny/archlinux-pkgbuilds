@@ -1,7 +1,7 @@
 # Contributor: Slash <demodevil5 [at] yahoo [dot] com>
 
 pkgname=hon
-pkgver=1.0.1
+pkgver=1.0.8
 pkgrel=1
 pkgdesc="Heroes of Newerth is a Real Time Strategy game heavily influcenced by DotA"
 arch=('i686' 'x86_64')
@@ -11,14 +11,14 @@ depends=('libgl' 'libxml2' 'mesa')
 makedepends=('unzip')
 install='hon.install'
 source=('hon.desktop' 'hon.launcher' \
-"http://dl2.heroesofnewerth.com/HoNClient-${pkgver}.sh")
+"http://dl.heroesofnewerth.com/HoNClient-${pkgver}.sh")
 md5sums=('d3fa56f17b5eb21d4da01e8d628fbc97'
          '4e104d5954ec711c0b89e9f968917758'
-         '4b693a378f319d99c4ffe662f0878a7e')
+         '84ba7f8141350d52afbc49a5b2864505')
 
 build() {
     # Extract Files
-    unzip $srcdir/HoNClient-${pkgver}.sh
+    sh -c "unzip $srcdir/HoNClient-${pkgver}.sh; true"
 
     # Create Destination Directory
     install -d $pkgdir/opt/hon/
