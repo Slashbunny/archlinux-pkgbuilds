@@ -1,7 +1,7 @@
 # Contributor: Slash <demodevil5[at]yahoo[dot]com>
 
 pkgname=secondlife-bin
-pkgver=2.1.0.207030
+pkgver=2.1.1.208043
 pkgrel=1
 pkgdesc="Second Life is a 3-D virtual world entirely built and owned by its residents (Binary version)."
 url="http://www.secondlife.com/"
@@ -15,7 +15,7 @@ source=('secondlife.desktop' 'secondlife.launcher' \
 "http://download.cloud.secondlife.com/Viewer-2-1/SecondLife-i686-${pkgver}.tar.bz2")
 md5sums=('293a7758e43c54de247311e6521deab1'
          '067f489be9fd2280ce2e12ed94ea7950'
-         'a23eb024c08ed015ce8064cd578a67de')
+         'c138253435d24bec9242d48c6cc38358')
 
 build() {
     cd $srcdir;
