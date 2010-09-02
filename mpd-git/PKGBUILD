@@ -1,7 +1,7 @@
 # Contributor: Slash <demodevil5[at]yahoo[dot]com>
 
 pkgname=mpd-git
-pkgver=20100728
+pkgver=20100902
 pkgrel=1
 pkgdesc="music daemon that plays mp3, flac, aac, mod, wav, mpc and ogg files"
 url="http://musicpd.org"
@@ -64,8 +64,8 @@ build() {
         --enable-iso9660 \
         --enable-lastfm \
         --enable-modplug \
-        --enable-zip \
-        --with-zeroconf=no 
+        --enable-zzip \
+        --with-zeroconf=no
         #--enable-cue \
         #--enable-sqlite \
         #--enable-mms \
