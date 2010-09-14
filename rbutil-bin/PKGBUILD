@@ -2,7 +2,7 @@
 # Contributor: Diego Gaustein <firstname@lastname.com.ar>
 
 pkgname=rbutil-bin
-pkgver=1.2.6
+pkgver=1.2.7
 pkgrel=1
 url="http://www.rockbox.org/twiki/bin/view/Main/RockboxUtility"
 pkgdesc="A Qt application for easily managing your Rockbox installation. (Binary Version)"
@@ -15,11 +15,11 @@ makedepends=()
 if [ "$CARCH" = "x86_64" ]; then
     source=('rbutil-bin.desktop' "http://download.rockbox.org/rbutil/linux/RockboxUtility-v${pkgver}-64bit.tar.bz2")
     md5sums=('d46e111615b7c90bf50cad9bfa3dd3b5'
-             '8e81a97b1cc7baabe6c48ad14314998b')
+             '9e9db03359d048a4716325bf60364d5a')
 else
     source=('rbutil-bin.desktop' "http://download.rockbox.org/rbutil/linux/RockboxUtility-v${pkgver}.tar.bz2")
     md5sums=('d46e111615b7c90bf50cad9bfa3dd3b5'
-             'be29486e7f98c6e95635ca5d9d89c5ae')
+             'd909021090be225f34372d7bb3c7ed55')
 fi
 
 build() {
@@ -32,4 +32,4 @@ build() {
     # Install Desktop File
     install -Dm 644 $srcdir/rbutil-bin.desktop \
         $pkgdir/usr/share/applications/rbutil-bin.desktop
-} 
+}
