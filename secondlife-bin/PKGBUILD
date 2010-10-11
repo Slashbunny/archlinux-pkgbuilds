@@ -2,12 +2,12 @@
 
 pkgname=secondlife-bin
 pkgver=2.1.1.208043
-pkgrel=1
+pkgrel=3
 pkgdesc="Second Life is a 3-D virtual world entirely built and owned by its residents (Binary version)."
 url="http://www.secondlife.com/"
 license=('GPL')
 [ "$CARCH" = "i686"   ] && depends=('alsa-lib' 'apr-util' 'freealut' 'gtk2' 'libgl' 'libidn' 'libjpeg6' 'mesa' 'nss' 'sdl')
-[ "$CARCH" = "x86_64" ] && depends=('alsa-lib' 'apr-util' 'lib32-freealut' 'gtk2' 'libgl' 'lib32-libidn' 'lib32-libjpeg6' 'mesa' 'lib32-nss' 'sdl')
+[ "$CARCH" = "x86_64" ] && depends=('alsa-lib' 'apr-util' 'lib32-atk'  'lib32-freealut' 'lib32-gtk2' 'libgl' 'lib32-libidn' 'lib32-libjpeg6' 'lib32-libxinerama' 'mesa' 'lib32-nss' 'sdl')
 arch=('i686' 'x86_64')
 conflicts=('secondlife' 'secondlife-svn' 'secondlife-rc')
 install=secondlife.install
