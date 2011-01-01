@@ -1,7 +1,7 @@
 # Contributor: Slash <demodevil5 [at] yahoo [dot] com>
 
 pkgname=hon
-pkgver=2.0.2
+pkgver=2.0.4.2
 pkgrel=1
 pkgdesc="Heroes of Newerth is a Real Time Strategy game heavily influcenced by DotA"
 arch=('i686' 'x86_64')
@@ -14,7 +14,7 @@ source=('hon.desktop' 'hon.launcher' \
 "http://dl.heroesofnewerth.com/HoNClient-${pkgver}.sh")
 md5sums=('d3fa56f17b5eb21d4da01e8d628fbc97'
          '4e104d5954ec711c0b89e9f968917758'
-         'e105cb7b920ebea19a61ef3441504943')
+         '4c4f010deef4da61edceee4fa1d2c958')
 
 build() {
     # Extract Files
