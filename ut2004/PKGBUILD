@@ -3,18 +3,17 @@
 
 pkgname=ut2004
 pkgver=3369
-pkgrel=2
+pkgrel=3
 pkgdesc="Popular first person shooter, native Linux version"
 url="http://www.unrealtournament.com"
 arch=('i686' 'x86_64')
-license="custom"
-depends=('xorg' 'sdl' 'openal')
+license=('custom')
+depends=('sdl' 'openal')
 makedepends=('unshield')
 install=ut2004.install
 source=("License.int"
     "http://downloads.unrealadmin.org/UT2004/Patches/Linux/ut2004-lnxpatch3369-2.tar.bz2"
-    "data1.hdr"
-    "data{1..6}.cab")
+    "data1.hdr" "data1.cab" "data2.cab" "data3.cab" "data4.cab" "data5.cab" "data6.cab")
 md5sums=('0fa447e05fe5a38e0e32adf171be405e'
          'be47e16b628a75097a8c82b8513b56d1'
          'b33525596246ff7a2934515f858b8e6a'
